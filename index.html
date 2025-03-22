@@ -106,6 +106,31 @@
             height: 100%;
             object-fit: contain;
         }
+        .language-toggle {
+            position: absolute;
+            top: 50px;
+            left: 60px;
+            display: flex;
+        }
+        .language-toggle button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 5px;
+            border: none;
+            background-color: #ddd;
+            transition: background-color 0.3s;
+        }
+        .language-toggle button.active {
+            background-color: black;
+            color: white;
+        }
+        [data-lang] {
+            transition: opacity 0.3s ease-in-out;
+        }
+		[data-list] {
+            transition: opacity 0.3s ease-in-out;
+        }
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .qr-code {
@@ -128,8 +153,31 @@
             }
         }
     </style>
+    <script>
+        function toggleLanguage(lang) {
+            document.querySelectorAll("[data-lang]").forEach(el => {
+                el.style.display = el.getAttribute("data-lang") === lang ? "block" : "none";
+            });
+			document.querySelectorAll("[data-list]").forEach(el => {
+                el.style.display = el.getAttribute("data-list") === lang ? "list-item" : "none";
+            });
+            localStorage.setItem("selectedLanguage", lang);
+            document.querySelectorAll(".language-toggle button").forEach(btn => {
+                btn.classList.toggle("active", btn.textContent === (lang === 'en' ? 'English' : 'Deutsch'));
+            });
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedLang = localStorage.getItem("selectedLanguage") || "en";
+            toggleLanguage(savedLang);
+        });
+    </script>
 </head>
 <body>
+    <div class="language-toggle">
+        <button onclick="toggleLanguage('en')">English</button>
+        <button onclick="toggleLanguage('de')">Deutsch</button>
+    </div>
     <div class="container-photo">
         <div class="circle-frame">
             <img src="https://barliangumay.github.io/src/photo.jpg" alt="barlian photo">
@@ -140,83 +188,140 @@
     </div>
     <div class="container">
         <header>
-            <h1>Barlian Gumay</h1>
-            <span><p>
-                Computational Engineering | Simulation | Digital Twin | IIoT | AI | Smart Manufacturing
-            </p></span>
-            <p class="profile">
-                A highly efficient, hardworking, and passionate engineer with a comprehensive understanding of design & manufacturing processes, as well as computational engineering.
-            </p>
+            <h1 data-lang="en">Barlian Gumay</h1>
+            <h1 data-lang="de" style="display: none;">Barlian Gumay</h1>
+            <span><p data-lang="en">Computational Engineering | Simulation | Digital Twin | IIoT | AI | Smart Manufacturing</p>
+            <p data-lang="de" style="display: none;">Berechnungsingenieurwesen | Simulation | Digital Twin | IIoT | KI | Intelligente Fertigung</p></span>
+            <p class="profile" data-lang="en">A highly efficient, hardworking, and passionate engineer with a comprehensive understanding of design & manufacturing processes, as well as computational engineering.</p>
+            <p class="profile" data-lang="de" style="display: none;">Ein hochgradig effizienter, fleißiger und leidenschaftlicher Ingenieur mit einem umfassenden Verständnis für Design- und Fertigungsprozesse sowie Berechnungsingenieurwesen.</p>
         </header>
 
         <div class="contact-info">
-            <p>Phone: +49 170 8093 328</p>
-            <p>Email: barlian.gumay@gmail.com</p>
-            <p>Location: 71638 Ludwigsburg, Germany</p>
-            <p>Date of Birth: 06.06.1990</p>
+            <p data-lang="en">Phone: +49 170 8093 328</p>
+            <p data-lang="de" style="display: none;">Telefon: +49 170 8093 328</p>
+            <p data-lang="en">Email: barlian.gumay@gmail.com</p>
+            <p data-lang="de" style="display: none;">E-Mail: barlian.gumay@gmail.com</p>
+            <p data-lang="en">Location: 71638 Ludwigsburg, Germany</p>
+            <p data-lang="de" style="display: none;">Standort: 71638 Ludwigsburg, Deutschland</p>
+            <p data-lang="en">Date of Birth: 06.06.1990</p>
+            <p data-lang="de" style="display: none;">Geburtsdatum: 06.06.1990</p>
         </div>
 
         <!-- Work Experience Section -->
         <section class="section">
-            <h2>Work Experience</h2>
+            <h2 data-lang="en">Work Experience</h2>
+            <h2 data-lang="de" style="display: none;">Berufserfahrung</h2>
             <ul class="timeline">
                 <li class="timeline-item">
                     <div class="timeline-item-content">
-                        <h3>IIoT Engineer for Digital Twin @ Bosch Business Innovations GmbH </h3>
-                        <span><i>February 2025 – Present</i></span>
-                        <ul>
-                            <p><li><strong>IIoT Solution Design:</strong> Develop and implement industrial IoT solutions for Digital Twin applications, ensuring seamless data flow between machines and the cloud.</li></p>
-                            <p><li><strong>Sensor Integration:</strong>Standardize and integrate sensor and PLC data into Digital Twin environments in collaboration with the measurement and controls team.</li></p>
-                            <p><li><strong>Remote Edge Management:</strong> Design remote management solutions for monitoring and maintaining assets, including OTA updates.</li></p>
-                            <p><li><strong>Communication Protocols:</strong> Implement and optimize industrial communication protocols such as OPC-UA and Modbus for system interoperability.</li></p>
-                            <p><li><strong>Signal Processing:</strong> Apply advanced signal processing techniques to analyze sensor data for actionable insights and decision-making.</li></p>
-                            <p><li><strong>Innovation & Lab Expansion:</strong> Extend and develop the Ludwigsburg Lab into an experience center to showcase Digital Twin technologies and IIoT innovations.</li></p>
+                        <h3 data-lang="en">IIoT Engineer for Digital Twin @ Bosch Business Innovations GmbH</h3>
+                        <h3 data-lang="de" style="display: none;">IIoT-Ingenieur für Digital Twin @ Bosch Business Innovations GmbH</h3>
+                        <span><i data-lang="en">February 2025 – Present</i></span>
+                        <span><i data-lang="de" style="display: none;">Februar 2025 – Heute</i></span>
+                        <ul class="ul">
+                            <p><li data-list="en"><strong>IIoT Solution Design:</strong> Develop and implement industrial IoT solutions for Digital Twin applications, ensuring seamless data flow between machines and the cloud.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>IIoT-Lösungsdesign:</strong> Entwicklung und Implementierung industrieller IoT-Lösungen für Digital Twin-Anwendungen, um einen nahtlosen Datenfluss zwischen Maschinen und der Cloud zu gewährleisten.</li></p>
+
+                            <p><li data-list="en"><strong>Sensor Integration:</strong> Standardize and integrate sensor and PLC data into Digital Twin environments in collaboration with the measurement and controls team.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Sensorintegration:</strong> Standardisierung und Integration von Sensor- und PLC-Daten in Digital Twin-Umgebungen in Zusammenarbeit mit dem Mess- und Steuerungsteam.</li></p>
+
+                            <p><li data-list="en"><strong>Remote Edge Management:</strong> Design remote management solutions for monitoring and maintaining assets, including OTA updates.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Remote Edge Management:</strong> Entwurf von Remote-Management-Lösungen zur Überwachung und Wartung von Assets, einschließlich OTA-Updates.</li></p>
+
+                            <p><li data-list="en"><strong>Communication Protocols:</strong> Implement and optimize industrial communication protocols such as OPC-UA and Modbus for system interoperability.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Kommunikationsprotokolle:</strong> Implementierung und Optimierung industrieller Kommunikationsprotokolle wie OPC-UA und Modbus für die Systeminteroperabilität.</li></p>
+
+                            <p><li data-list="en"><strong>Signal Processing:</strong> Apply advanced signal processing techniques to analyze sensor data for actionable insights and decision-making.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Signalverarbeitung:</strong> Anwendung fortgeschrittener Signalverarbeitungstechniken zur Analyse von Sensordaten für umsetzbare Erkenntnisse und Entscheidungsfindung.</li></p>
+
+                            <p><li data-list="en"><strong>Innovation & Lab Expansion:</strong> Extend and develop the Ludwigsburg Lab into an experience center to showcase Digital Twin technologies and IIoT innovations.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Innovation & Lab-Erweiterung:</strong> Erweiterung und Entwicklung des Ludwigsburger Labors zu einem Erfahrungszentrum zur Präsentation von Digital Twin-Technologien und IIoT-Innovationen.</li></p>
                         </ul>
-                        <span><strong>Knowledge:</i></strong>
-                        <span><i>MODBUS/TCP, OPC-UA, MQTT, InfluxDB, MongoDB, AWS IoT Core, Docker, Kubernetes, Node-RED, Javascript, Python</i></span>
+                        <span><strong data-lang="en">Knowledge:</strong></span>
+                        <span><strong data-lang="de" style="display: none;">Wissen:</strong></span>
+                        <span><i data-lang="en">MODBUS/TCP, OPC-UA, MQTT, InfluxDB, MongoDB, AWS IoT Core, Docker, Kubernetes, Node-RED, Javascript, Python</i></span>
+                        <span><i data-lang="de" style="display: none;">MODBUS/TCP, OPC-UA, MQTT, InfluxDB, MongoDB, AWS IoT Core, Docker, Kubernetes, Node-RED, Javascript, Python</i></span>
                     </div>
                 </li>
                 <li class="timeline-item">
                     <div class="timeline-item-content">
-                        <h3>MES System Engineer - Digitalization in Manufacturing @ FLUX-GERÄTE GmbH</h3>
-                        <span><i>February 2023 – February 2025</i></span>
-                        <ul>
-                            <p><li><strong>IIoT Development:</strong> Spearheaded the development of state-of-the-art Industrial Internet of Things (IIoT) solutions, enabling real-time data collection and analysis for enhanced decision-making in manufacturing processes.</li></p>
-                            <p><li><strong>Dashboard & BDE Portal:</strong> Designed and implemented a robust Production Data Acquisition (BDE) platform and dashboard, providing stakeholders with actionable insights into manufacturing operations and performance.</li></p>
-                            <p><li><strong>ERP Integration:</strong> Integrated ERP databases with advanced model analysis tools, streamlining data flow and facilitating more accurate forecasting and optimization.</li></p>
-                            <p><li><strong>Production Data Analysis:</strong> Conducted in-depth analysis of production data, identifying key performance indicators (KPIs) and driving process improvements to maximize efficiency and quality.</li></p>
-                            <p><li><strong>Energy Consumption Management:</strong> Led initiatives to measure and optimize energy consumption, contributing to sustainability goals and reducing operational costs.</li></p>
-                            <p><li><strong>AI/ML Production Planning:</strong> Developed and implemented AI and Machine Learning-based production planning solutions, optimizing resource allocation, and minimizing production bottlenecks.</li></p>
-                            <p><li><strong>Digital Twin:</strong> Pioneered the practical implementation of the digital twin in supply chain management, enhancing visibility, traceability, and responsiveness throughout the supply chain.</li></p>
+                        <h3 data-lang="en">MES System Engineer - Digitalization in Manufacturing @ FLUX-GERÄTE GmbH</h3>
+                        <h3 data-lang="de" style="display: none;">MES-Systemingenieur - Digitalisierung in der Fertigung @ FLUX-GERÄTE GmbH</h3>
+                        <span><i data-lang="en">February 2023 – February 2025</i></span>
+                        <span><i data-lang="de" style="display: none;">Februar 2023 – Februar 2025</i></span>
+                        <ul class="ul">
+                            <p><li data-list="en"><strong>IIoT Development:</strong> Spearheaded the development of state-of-the-art Industrial Internet of Things (IIoT) solutions, enabling real-time data collection and analysis for enhanced decision-making in manufacturing processes.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>IIoT-Entwicklung:</strong> Führte die Entwicklung modernster Industrial Internet of Things (IIoT)-Lösungen an, die die Echtzeitdatenerfassung und -analyse für verbesserte Entscheidungsfindung in Fertigungsprozessen ermöglichen.</li></p>
+
+                            <p><li data-list="en"><strong>Dashboard & BDE Portal:</strong> Designed and implemented a robust Production Data Acquisition (BDE) platform and dashboard, providing stakeholders with actionable insights into manufacturing operations and performance.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Dashboard & BDE-Portal:</strong> Entwurf und Implementierung einer robusten Produktionsdatenerfassungs-(BDE)-Plattform und eines Dashboards, die den Stakeholdern umsetzbare Einblicke in die Fertigungsoperationen und -leistung bieten.</li></p>
+
+                            <p><li data-list="en"><strong>ERP Integration:</strong> Integrated ERP databases with advanced model analysis tools, streamlining data flow and facilitating more accurate forecasting and optimization.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>ERP-Integration:</strong> Integration von ERP-Datenbanken mit fortschrittlichen Modellanalysetools zur Optimierung des Datenflusses und zur Ermöglichung einer genaueren Prognose und Optimierung.</li></p>
+
+                            <p><li data-list="en"><strong>Production Data Analysis:</strong> Conducted in-depth analysis of production data, identifying key performance indicators (KPIs) and driving process improvements to maximize efficiency and quality.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Produktionsdatenanalyse:</strong> Durchführung einer eingehenden Analyse der Produktionsdaten, Identifizierung der wichtigsten Leistungskennzahlen (KPIs) und Förderung von Prozessverbesserungen zur Maximierung von Effizienz und Qualität.</li></p>
+
+                            <p><li data-list="en"><strong>Energy Consumption Management:</strong> Led initiatives to measure and optimize energy consumption, contributing to sustainability goals and reducing operational costs.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Energieverbrauchsmanagement:</strong> Leitung von Initiativen zur Messung und Optimierung des Energieverbrauchs, Beitrag zu Nachhaltigkeitszielen und Reduzierung der Betriebskosten.</li></p>
+
+                            <p><li data-list="en"><strong>AI/ML Production Planning:</strong> Developed and implemented AI and Machine Learning-based production planning solutions, optimizing resource allocation, and minimizing production bottlenecks.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>AI/ML-Produktionsplanung:</strong> Entwicklung und Implementierung von Produktionsplanungslösungen auf Basis von KI und maschinellem Lernen, Optimierung der Ressourcenzuteilung und Minimierung von Produktionsengpässen.</li></p>
+
+                            <p><li data-list="en"><strong>Digital Twin:</strong> Pioneered the practical implementation of the digital twin in supply chain management, enhancing visibility, traceability, and responsiveness throughout the supply chain.</li></p>
+                            <p><li data-list="de" style="display: none;"><strong>Digital Twin:</strong> Pionierarbeit bei der praktischen Umsetzung des digitalen Zwillings im Lieferkettenmanagement zur Verbesserung der Sichtbarkeit, Nachverfolgbarkeit und Reaktionsfähigkeit in der gesamten Lieferkette.</li></p>
                         </ul>
-                        <span><strong>Knowledge:</i></strong>
-                        <span><i>OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Javascript, SQL, Python, Node.js, React native, EXPO, ERP (proALPHA), BI (Qlik).</i></span>
+
+                        <span><strong data-lang="en">Knowledge:</strong></span>
+                        <span><strong data-lang="de" style="display: none;">Wissen:</strong></span>
+                        <span><i data-lang="en">OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Javascript, SQL, Python, Node.js, React native, EXPO, ERP (proALPHA), BI (Qlik).</i></span>
+                        <span><i data-lang="de" style="display: none;">OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Javascript, SQL, Python, Node.js, React native, EXPO, ERP (proALPHA), BI (Qlik).</i></span>
                     </div>
                 </li>
                 <li class="timeline-item">
                     <div class="timeline-item-content">
-                        <h3>Technical Project Manager @ MAXXTEC</h3>
-                        <span><i>March 2018 – September 2019</i></span>
-                        <ul>
-                        <p><li>Managed project lifecycles, overseeing technical concepts, contract terms, process diagrams, and design specifications for energy-efficient and renewable energy plants.</li></p>
-                        <p><li>Coordinated time schedules, part lists, order specifications, and approval documents, while ensuring quality control, deadline adherence, and budget compliance.</li></p>
-                        <p><li>Provided technical guidance to customers, suppliers, and external manufacturers, addressing technical issues and ensuring smooth project execution.</li></p>
+                        <h3 data-lang="en">Technical Project Manager @ MAXXTEC</h3>
+                        <h3 data-lang="de" style="display: none;">Technischer Projektmanager @ MAXXTEC</h3>
+                        <span><i data-lang="en">March 2018 – September 2019</i></span>
+                        <span><i data-lang="de" style="display: none;">März 2018 – September 2019</i></span>
+                        <ul class="ul">
+                            <p><li data-list="en">Managed project lifecycles, overseeing technical concepts, contract terms, process diagrams, and design specifications for energy-efficient and renewable energy plants.</li></p>
+                            <p><li data-list="de" style="display: none;">Leitung von Projektlebenszyklen, Überwachung technischer Konzepte, Vertragsbedingungen, Prozessdiagrammen und Designvorgaben für energieeffiziente und erneuerbare Energieanlagen.</li></p>
+
+                            <p><li data-list="en">Coordinated time schedules, part lists, order specifications, and approval documents, while ensuring quality control, deadline adherence, and budget compliance.</li></p>
+                            <p><li data-list="de" style="display: none;">Koordinierung von Zeitplänen, Teilelisten, Bestellspezifikationen und Genehmigungsdokumenten, während die Qualitätskontrolle, die Einhaltung von Fristen und die Budgeteinhaltung sichergestellt werden.</li></p>
+
+                            <p><li data-list="en">Provided technical guidance to customers, suppliers, and external manufacturers, addressing technical issues and ensuring smooth project execution.</li></p>
+                            <p><li data-list="de" style="display: none;">Technische Unterstützung für Kunden, Lieferanten und externe Hersteller bereitgestellt, technische Probleme angesprochen und eine reibungslose Projektumsetzung sichergestellt.</li></p>
                         </ul>
-                        <span><strong>Field:</i></strong>
-                        <span><i>Renewable energy, industrial process, project management, manufacturing.</i></span>
+
+                        <span><strong data-lang="en">Field:</strong></span>
+                        <span><strong data-lang="de" style="display: none;">Bereich:</strong></span>
+                        <span><i data-lang="en">Renewable energy, industrial process, project management, manufacturing.</i></span>
+                        <span><i data-lang="de" style="display: none;">Erneuerbare Energien, industrielle Prozesse, Projektmanagement, Fertigung.</i></span>
                     </div>
                 </li>
                 <li class="timeline-item">
                     <div class="timeline-item-content">
-                        <h3>Project Execution Lead @ SIEMENS</h3>
-                        <span><i>March 2014 – March 2018</i></span>
-                        <ul>
-                        <p><li>Led multi-functional teams as Project Manager for Siemens gas and steam turbine projects, overseeing the combustion chamber and LP steam turbine assembly, focusing on cost, quality, and timely delivery.</li></p>
-                        <p><li>Spearheaded business process improvements in steam turbine manufacturing, enhancing operational efficiency through cross-departmental collaboration and SAP integration.</li></p>
-                        <p><li>Gained extensive international experience through Siemens ASEAN-Pacific Engineering Graduate Program, acquiring skills in project management, supply chain, and cross-cultural communication.</li></p>
+                        <h3 data-lang="en">Project Execution Lead @ SIEMENS</h3>
+                        <h3 data-lang="de" style="display: none;">Leiter der Projektdurchführung @ SIEMENS</h3>
+                        <span><i data-lang="en">March 2014 – March 2018</i></span>
+                        <span><i data-lang="de" style="display: none;">März 2014 – März 2018</i></span>
+                        <ul class="ul">
+                          <p><li data-list="en">Led multi-functional teams as Project Manager for Siemens gas and steam turbine projects, overseeing the combustion chamber and LP steam turbine assembly, focusing on cost, quality, and timely delivery.</li></p>
+                          <p><li data-list="de" style="display: none;">Leitung von multifunktionalen Teams als Projektmanager für Siemens-Gas- und Dampfturbinenprojekte, Überwachung der Brennkammer und Montage der LP-Dampfturbine mit Fokus auf Kosten, Qualität und termingerechte Lieferung.</li></p>
+
+                          <p><li data-list="en">Spearheaded business process improvements in steam turbine manufacturing, enhancing operational efficiency through cross-departmental collaboration and SAP integration.</li></p>
+                          <p><li data-list="de" style="display: none;">Initiativen zur Verbesserung der Geschäftsprozesse in der Dampfturbinenfertigung vorangetrieben, um die betriebliche Effizienz durch abteilungsübergreifende Zusammenarbeit und SAP-Integration zu steigern.</li></p>
+
+                          <p><li data-list="en">Gained extensive international experience through Siemens ASEAN-Pacific Engineering Graduate Program, acquiring skills in project management, supply chain, and cross-cultural communication.</li></p>
+                          <p><li data-list="de" style="display: none;">Umfangreiche internationale Erfahrung durch das Siemens ASEAN-Pacific Engineering Graduate Program gesammelt, Fähigkeiten in den Bereichen Projektmanagement, Lieferkette und interkulturelle Kommunikation erworben.</li></p>
                         </ul>
-                        <span><strong>Field:</i></strong>
-                        <span><i>Steam and gas turbine, manufacturing, quality management, project execution.</i></span>
+
+                        <span><strong data-lang="en">Field:</strong></span>
+                        <span><strong data-lang="de" style="display: none;">Bereich:</strong></span>
+                        <span><i data-lang="en">Steam and gas turbine, manufacturing, quality management, project execution.</i></span>
+                        <span><i data-lang="de" style="display: none;">Dampf- und Gasturbine, Fertigung, Qualitätsmanagement, Projektdurchführung.</i></span>
                     </div>
                 </li>
             </ul>
@@ -224,31 +329,43 @@
 
         <!-- Education Section -->
         <section class="section">
-            <h2>Education</h2>
+            <h2 data-lang="en">Education</h2>
+            <h2 data-lang="de" style="display: none;">Bildung</h2>
             <ul class="education">
                 <li class="education-item">
                     <div class="education-item-content">
-                        <h3>Technische Universität Dresden</h3>
-                        <span>2019 – 2022</span>
-                        <p>Master of Science (M.Sc) in Computational Modelling & Simulation</p>
-                        <p>Sub-track: Computational Engineering</p>
-                        <p><i>Main modules: CFD, FEM, HPC, Stochastic modelling, Machine Learning</i></p>
+                        <h3 data-lang="en">Technische Universität Dresden</h3>
+                        <h3 data-lang="de" style="display: none;">Technische Universität Dresden</h3>
+                        <span data-lang="en">2019 – 2022</span>
+                        <span data-lang="de" style="display: none;">2019 – 2022</span>
+                        <p data-lang="en">Master of Science (M.Sc) in Computational Modelling & Simulation</p>
+                        <p data-lang="de" style="display: none;">Master of Science (M.Sc) in Berechnungsmodellierung & Simulation</p>
+                        <p data-lang="en"><i>Main modules: CFD, FEM, HPC, Stochastic modelling, Machine Learning</i></p>
+                        <p data-lang="de" style="display: none;"><i>Hauptmodule: CFD, FEM, HPC, Stochastische Modellierung, Maschinelles Lernen</i></p>
                     </div>
                 </li>
                 <li class="education-item">
                     <div class="education-item-content">
-                        <h3>Universitas Gadjah Mada (UGM)</h3>
-                        <span>2011 – 2013</span>
-                        <p>Master of Engineering (M.Eng) in Mechanical Engineering</p>
-                        <p><i>Main modules: Fluid Mechanics, Two phase flow, Energy Conversion</i></p>
+                        <h3 data-lang="en">Universitas Gadjah Mada (UGM)</h3>
+                        <h3 data-lang="de" style="display: none;">Universitas Gadjah Mada (UGM)</h3>
+                        <span data-lang="en">2011 – 2013</span>
+                        <span data-lang="de" style="display: none;">2011 – 2013</span>
+                        <p data-lang="en">Master of Engineering (M.Eng) in Mechanical Engineering</p>
+                        <p data-lang="de" style="display: none;">Master of Engineering (M.Eng) in Maschinenbau</p>
+                        <p data-lang="en"><i>Main modules: Fluid Mechanics, Two phase flow, Energy Conversion</i></p>
+                        <p data-lang="de" style="display: none;"><i>Hauptmodule: Fluidmechanik, Zweiphasenströmung, Energieumwandlung</i></p>
                     </div>
                 </li>
                 <li class="education-item">
                     <div class="education-item-content">
-                        <h3>Universitas Gadjah Mada (UGM)</h3>
-                        <span>2008 – 2012</span>
-                        <p>Bachelor of Engineering (B.Eng) in Engineering Physics</p>
-                        <p><i>Main modules: Nuclear Engineering, Thermal-hydraulics, Simulation</i></p>
+                        <h3 data-lang="en">Universitas Gadjah Mada (UGM)</h3>
+                        <h3 data-lang="de" style="display: none;">Universitas Gadjah Mada (UGM)</h3>
+                        <span data-lang="en">2008 – 2012</span>
+                        <span data-lang="de" style="display: none;">2008 – 2012</span>
+                        <p data-lang="en">Bachelor of Engineering (B.Eng) in Engineering Physics</p>
+                        <p data-lang="de" style="display: none;">Bachelor of Engineering (B.Eng) in Ingenieurphysik</p>
+                        <p data-lang="en"><i>Main modules: Nuclear Engineering, Thermal-hydraulics, Simulation</i></p>
+                        <p data-lang="de" style="display: none;"><i>Hauptmodule: Kerntechnik, Thermohydraulik, Simulation</i></p>
                     </div>
                 </li>
             </ul>
@@ -256,44 +373,55 @@
 
         <!-- Skills Section -->
         <section class="section">
-            <h2>Software & Programming Skills</h2>
+            <h2 data-lang="en">Software & Programming Skills</h2>
+            <h2 data-lang="de" style="display: none;">Software- und Programmierkenntnisse</h2>
             <ul class="skills">
                 <li class="skill-item">
-                    <p><strong>General: </strong>Ms. Office (++ Ms. Project)</p>
+                    <p data-lang="en"><strong>General: </strong>Ms. Office (++ Ms. Project)</p>
+                    <p data-lang="de" style="display: none;"><strong>Allgemein: </strong>Ms. Office (++ Ms. Project)</p>
                 </li>
                 <li class="skill-item">
-                    <p><strong>DevOps: </strong>MATLAB, SQL, Python, Javascript, Docker, OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Node.js, Vue, React native, EXPO, Microsoft Azure</p>
+                    <p data-lang="en"><strong>DevOps: </strong>MATLAB, SQL, Python, Javascript, Docker, OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Node.js, Vue, React native, EXPO, Microsoft Azure</p>
+                    <p data-lang="de" style="display: none;"><strong>DevOps: </strong>MATLAB, SQL, Python, Javascript, Docker, OPC-UA, MQTT, InfluxDB, Grafana, Node-RED, Node.js, Vue, React native, EXPO, Microsoft Azure</p>
                 </li>
                 <li class="skill-item">
-                    <p><strong>CAD & CAE: </strong>ANSYS, OpenFOAM, ABAQUS, SIMULIA, SOLIDWORKS</p>
+                    <p data-lang="en"><strong>CAD & CAE: </strong>ANSYS, OpenFOAM, ABAQUS, SIMULIA, SOLIDWORKS</p>
+                    <p data-lang="de" style="display: none;"><strong>CAD & CAE: </strong>ANSYS, OpenFOAM, ABAQUS, SIMULIA, SOLIDWORKS</p>
                 </li>
                 <li class="skill-item">
-                    <p><strong>ERP & BI: </strong>SAP (MM & PP), proALPHA, Qlik Sense, Grafana</p>
+                    <p data-lang="en"><strong>ERP & BI: </strong>SAP (MM & PP), proALPHA, Qlik Sense, Grafana</p>
+                    <p data-lang="de" style="display: none;"><strong>ERP & BI: </strong>SAP (MM & PP), proALPHA, Qlik Sense, Grafana</p>
                 </li>
             </ul>
         </section>
 
         <!-- Languages Section -->
         <section class="section">
-            <h2>Languages</h2>
+            <h2 data-lang="en">Languages</h2>
+            <h2 data-lang="de" style="display: none;">Sprachen</h2>
             <ul class="languages">
                 <li class="language-item">
-                    <p>Deutsch (B1)</p>
+                    <p data-lang="en">Deutsch (B1)</p>
+                    <p data-lang="de" style="display: none;">Deutsch (B1)</p>
                 </li>
                 <li class="language-item">
-                    <p>English (C1)</p>
+                    <p data-lang="en">English (C1)</p>
+                    <p data-lang="de" style="display: none;">Englisch (C1)</p>
                 </li>
                 <li class="language-item">
-                    <p>Indonesian (Native)</p>
+                    <p data-lang="en">Indonesian (Native)</p>
+                    <p data-lang="de" style="display: none;">Indonesisch (Muttersprache)</p>
                 </li>
             </ul>
         </section>
 
         <!-- Personal Interests Section -->
         <section class="section">
-            <h2>Personal Interests</h2>
+            <h2 data-lang="en">Personal Interests</h2>
+            <h2 data-lang="de" style="display: none;">Persönliche Interessen</h2>
             <div class="personal-interests">
-                <p>Traveling | Photography | Futsal | Videography | Movies | Music</p>
+                <p data-lang="en">Traveling | Photography | Futsal | Videography | Movies | Music</p>
+                <p data-lang="de" style="display: none;">Reisen | Fotografie | Futsal | Videografie | Filme | Musik</p>
             </div>
         </section>
     </div>
